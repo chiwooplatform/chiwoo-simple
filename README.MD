@@ -1,0 +1,1 @@
+The chiwoo-simple project is a PoC project for validating chiwoo-mybatis and chiwoo-web components.

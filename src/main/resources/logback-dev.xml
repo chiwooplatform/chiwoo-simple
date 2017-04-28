@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	scan="true" scanPeriod="30 seconds"
+	debug="false">
+	<property name="LOG_HOME" value="/opt/logs/ncmsapi" />
+	<property name="LOG_HOME_BACKUP" value="/opt/logs/ncmsapi/backup" />
+	<property name="MAX_FILE_SIZE" value="100MB" />
+	<property name="MAX_HISTORY" value="10" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger.%M\(%F:%L\) -
+				%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/ncmsapi.log</file>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger.%M\(%F:%L\) -
+				%msg%n
+			</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- for archiving <fileNamePattern>${LOG_HOME_BACKUP}/assurance.%d{yyyy-MM-dd}.%i.gz</fileNamePattern> -->
+			<fileNamePattern>${LOG_HOME_BACKUP}/ncmsapi.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>${MAX_HISTORY}</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+    <logger name="org.chiwooplatform.simple" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="org.chiwooplatform.simple.core.mybatis.PaginationInterceptor" level="INFO"
+        additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>

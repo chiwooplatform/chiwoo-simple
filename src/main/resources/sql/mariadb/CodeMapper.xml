@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chiwooplatform.simple.dam.mapper.com.CodeMapper">
+
+    <insert id="saveOrUpdate" parameterType="code"><![CDATA[
+insert  into COM_CODE (
+        cd_id,
+        up_cd_id,
+        cd_val,
+        cd_name,
+        cd_eng_name,
+        descr,
+        use_yn,
+        ordno,
+        ext_val,
+        register_id,
+        reg_dtm )
+values (
+        #{cdId,jdbcType=INTEGER},
+        #{upCdId,jdbcType=INTEGER},
+        #{cdVal,jdbcType=VARCHAR},
+        #{cdName,jdbcType=VARCHAR},
+        #{cdEngName,jdbcType=VARCHAR},
+        #{descr,jdbcType=VARCHAR},
+        #{useYn,jdbcType=VARCHAR},
+        #{ordno,jdbcType=INTEGER},
+        #{extVal,jdbcType=VARCHAR},
+        #{registerId,jdbcType=INTEGER},
+        CURRENT_TIMESTAMP )
+on duplicate key 
+update  up_cd_id           = #{upCdId,jdbcType=INTEGER},
+        cd_val             = #{cdVal,jdbcType=VARCHAR},
+        cd_name            = #{cdName,jdbcType=VARCHAR},
+        cd_eng_name        = #{cdEngName,jdbcType=VARCHAR},
+        descr              = #{descr,jdbcType=VARCHAR},
+        use_yn             = #{useYn,jdbcType=VARCHAR},
+        ordno              = #{ordno,jdbcType=INTEGER},
+        ext_val            = #{extVal,jdbcType=VARCHAR},
+        modifier_id        = #{modifierId,jdbcType=INTEGER},
+        upd_dtm            = CURRENT_TIMESTAMP
+ ]]></insert>
+
+    <!-- You can use selectKey on add query for auto-increment primary key.
+
+<selectKey keyProperty="existsYn" resultType="code" order="BEFORE"<![CDATA[
+select  case
+          when count(1) > 0 then 1 else 0 end as existsYn
+from    COM_CODE a
+where   up_cd_id = #{upCdId,jdbcType=INTEGER}
+and     cd_val = #{cdVal,jdbcType=VARCHAR}
+and     cd_name = #{cdName,jdbcType=VARCHAR}
+and     cd_eng_name = #{cdEngName,jdbcType=VARCHAR}
+and     descr = #{descr,jdbcType=VARCHAR}
+and     use_yn = #{useYn,jdbcType=VARCHAR}
+and     ordno = #{ordno,jdbcType=INTEGER}
+and     ext_val = #{extVal,jdbcType=VARCHAR}
+and     register_id = #{registerId,jdbcType=INTEGER}
+and     reg_dtm = #{regDtm,jdbcType=TIMESTAMP}
+and     modifier_id = #{modifierId,jdbcType=INTEGER}
+and     upd_dtm = #{updDtm,jdbcType=TIMESTAMP}
+]]></selectKey>
+    -->
+    <insert id="add" parameterType="code"><![CDATA[
+insert  into COM_CODE (
+        cd_id,
+        up_cd_id,
+        cd_val,
+        cd_name,
+        cd_eng_name,
+        descr,
+        use_yn,
+        ordno,
+        ext_val,
+        register_id,
+        reg_dtm )
+values (
+        #{cdId,jdbcType=INTEGER},
+        #{upCdId,jdbcType=INTEGER},
+        #{cdVal,jdbcType=VARCHAR},
+        #{cdName,jdbcType=VARCHAR},
+        #{cdEngName,jdbcType=VARCHAR},
+        #{descr,jdbcType=VARCHAR},
+        #{useYn,jdbcType=VARCHAR},
+        #{ordno,jdbcType=INTEGER},
+        #{extVal,jdbcType=VARCHAR},
+        #{registerId,jdbcType=INTEGER},
+        CURRENT_TIMESTAMP )
+ ]]></insert>
+
+    <update id="modify" parameterType="code"><![CDATA[
+update  COM_CODE
+set     up_cd_id           = #{upCdId,jdbcType=INTEGER},
+        cd_val             = #{cdVal,jdbcType=VARCHAR},
+        cd_name            = #{cdName,jdbcType=VARCHAR},
+        cd_eng_name        = #{cdEngName,jdbcType=VARCHAR},
+        descr              = #{descr,jdbcType=VARCHAR},
+        use_yn             = #{useYn,jdbcType=VARCHAR},
+        ordno              = #{ordno,jdbcType=INTEGER},
+        ext_val            = #{extVal,jdbcType=VARCHAR},
+        modifier_id        = #{modifierId,jdbcType=INTEGER},
+        upd_dtm            = CURRENT_TIMESTAMP
+where   cd_id              = #{cdId,jdbcType=INTEGER}
+ ]]></update>
+
+    <update id="enable" parameterType="integer"><![CDATA[
+update  COM_CODE
+set     use_yn = 1
+where   up_cd_id           = #{upCdId,jdbcType=INTEGER}
+and     cd_val             = #{cdVal,jdbcType=VARCHAR}
+and     cd_name            = #{cdName,jdbcType=VARCHAR}
+and     cd_eng_name        = #{cdEngName,jdbcType=VARCHAR}
+and     descr              = #{descr,jdbcType=VARCHAR}
+and     use_yn             = #{useYn,jdbcType=VARCHAR}
+and     ordno              = #{ordno,jdbcType=INTEGER}
+and     ext_val            = #{extVal,jdbcType=VARCHAR}
+and     register_id        = #{registerId,jdbcType=INTEGER}
+and     reg_dtm            = #{regDtm,jdbcType=TIMESTAMP}
+and     modifier_id        = #{modifierId,jdbcType=INTEGER}
+and     upd_dtm            = #{updDtm,jdbcType=TIMESTAMP}
+]]></update>
+
+    <update id="disable" parameterType="integer"><![CDATA[
+update  COM_CODE
+set     use_yn = 0
+where   up_cd_id           = #{upCdId,jdbcType=INTEGER}
+and     cd_val             = #{cdVal,jdbcType=VARCHAR}
+and     cd_name            = #{cdName,jdbcType=VARCHAR}
+and     cd_eng_name        = #{cdEngName,jdbcType=VARCHAR}
+and     descr              = #{descr,jdbcType=VARCHAR}
+and     use_yn             = #{useYn,jdbcType=VARCHAR}
+and     ordno              = #{ordno,jdbcType=INTEGER}
+and     ext_val            = #{extVal,jdbcType=VARCHAR}
+and     register_id        = #{registerId,jdbcType=INTEGER}
+and     reg_dtm            = #{regDtm,jdbcType=TIMESTAMP}
+and     modifier_id        = #{modifierId,jdbcType=INTEGER}
+and     upd_dtm            = #{updDtm,jdbcType=TIMESTAMP}
+]]></update>
+
+    <delete id="remove" parameterType="integer"><![CDATA[
+delete
+from    COM_CODE
+where   cd_id = #{cdId,jdbcType=INTEGER}
+]]></delete>
+
+    <select id="get" parameterType="integer" resultType="code"><![CDATA[
+select  a.cd_id,
+        a.up_cd_id,
+        a.cd_val,
+        a.cd_name,
+        a.cd_eng_name,
+        a.descr,
+        a.use_yn,
+        a.ordno,
+        a.ext_val,
+        a.register_id,
+        a.reg_dtm,
+        a.modifier_id,
+        a.upd_dtm
+from    COM_CODE a
+where   cd_id = #{cdId,jdbcType=INTEGER}
+]]></select>
+
+    <select id="getForMap" parameterType="integer" resultType="rmap"><![CDATA[
+select  a.cd_id,
+        a.up_cd_id,
+        a.cd_val,
+        a.cd_name,
+        a.cd_eng_name,
+        a.descr,
+        a.use_yn,
+        a.ordno,
+        a.ext_val,
+        a.register_id,
+        a.reg_dtm,
+        a.modifier_id,
+        a.upd_dtm
+from    COM_CODE a
+where   cd_id = #{cdId,jdbcType=INTEGER}
+]]></select>
+
+    <select id="query" parameterType="map" resultType="code"><![CDATA[
+select  a.cd_id,
+        a.up_cd_id,
+        a.cd_val,
+        a.cd_name,
+        a.cd_eng_name,
+        a.descr,
+        a.use_yn,
+        a.ordno,
+        a.ext_val,
+        a.register_id,
+        a.reg_dtm,
+        a.modifier_id,
+        a.upd_dtm
+from    COM_CODE a
+where   cd_id = #{cdId,jdbcType=INTEGER}
+]]></select>
+
+    <select id="queryForMap" parameterType="map" resultType="rmap"><![CDATA[
+select  a.cd_id,
+        a.up_cd_id,
+        a.cd_val,
+        a.cd_name,
+        a.cd_eng_name,
+        a.descr,
+        a.use_yn,
+        a.ordno,
+        a.ext_val,
+        a.register_id,
+        a.reg_dtm,
+        a.modifier_id,
+        a.upd_dtm
+from    COM_CODE a
+where   cd_id = #{cdId,jdbcType=INTEGER}
+]]></select>
+
+</mapper>
