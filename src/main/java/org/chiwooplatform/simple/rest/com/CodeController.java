@@ -62,7 +62,7 @@ public class CodeController {
     public ResponseEntity<?> get( @RequestHeader(Constants.AUTH_TOKEN) String token, @PathVariable("cdId") Integer cdId,
                                   @RequestParam Map<String, Object> param )
         throws Exception {
-        // logger.debug( "tXID: {}, userseq: {}, principal: {}", ContextHolder.tXID(), ContextHolder.userseq(), ContextHolder.principal() );
+        // logger.debug( "tXID: {}, userno: {}, principal: {}", ContextHolder.tXID(), ContextHolder.userno(), ContextHolder.principal() );
         param.put( "cdId", cdId );
         ResponseMessage response = new ResponseMessage();
         Code code = commonService.getAtCodeMapper( param );
@@ -88,7 +88,7 @@ public class CodeController {
         Code code = requestMessage.getCode();
         validator.validate( code );
         ResponseMessage response = new ResponseMessage();
-        code.setRegisterId( ContextHolder.userseq() ); // XXX 사용자 아이디 를 설정 
+        code.setRegisterId( ContextHolder.userno() ); // XXX 사용자 아이디 를 설정 
         commonService.addAtCodeMapper( code );
         response.setCode( code );
         return new ResponseEntity<>( response, HttpStatus.CREATED );
@@ -127,7 +127,7 @@ public class CodeController {
         Code code = requestMessage.getCode();
         validator.validate( code );
         ResponseMessage response = new ResponseMessage();
-        code.setModifierId( ContextHolder.userseq() ); 
+        code.setModifierId( ContextHolder.userno() ); 
         commonService.modifyAtCodeMapper( code );
         response.setCode( code );
         return new ResponseEntity<>( response, HttpStatus.OK );
@@ -163,7 +163,7 @@ public class CodeController {
     public ResponseEntity<?> enable( @RequestHeader(Constants.AUTH_TOKEN) String token, @PathVariable("cdId") Integer cdId,
                                      @RequestParam Map<String, Object> param ) {
         param.put( "cdId", cdId );
-        param.put( "modifierId", ContextHolder.userseq() );
+        param.put( "modifierId", ContextHolder.userno() );
         return new ResponseEntity<>( HttpStatus.NO_CONTENT );
     }
 
@@ -180,7 +180,7 @@ public class CodeController {
     public ResponseEntity<?> disable( @RequestHeader(Constants.AUTH_TOKEN) String token, @PathVariable("cdId") Integer cdId,
                                       @RequestParam Map<String, Object> param ) {
         param.put( "cdId", cdId );
-        param.put( "modifierId", ContextHolder.userseq() ); 
+        param.put( "modifierId", ContextHolder.userno() ); 
         commonService.enableAtCodeMapper( param );
         return new ResponseEntity<>( HttpStatus.NO_CONTENT );
     }

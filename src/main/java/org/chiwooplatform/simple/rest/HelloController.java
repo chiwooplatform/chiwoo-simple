@@ -35,7 +35,7 @@ public class HelloController {
     public ResponseEntity<?> params( @RequestParam Map<String, Object> param )
         throws Exception {
         param.put( "tXID", ContextHolder.tXID() );
-        param.put( "userseq", ContextHolder.userseq() );
+        param.put( "userno", ContextHolder.userno() );
         param.put( "principal", ContextHolder.principal() );
         logger.debug( "param: {}", param );
         return new ResponseEntity<>( param, HttpStatus.OK );

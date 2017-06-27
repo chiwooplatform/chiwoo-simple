@@ -55,7 +55,7 @@ public class CodeControllerTest
     }
 
     /**
-     * {@link CodeController#add}
+     * {@link AuthController#add}
      * 
      * @throws Exception
      */
@@ -76,7 +76,7 @@ public class CodeControllerTest
     }
 
     /**
-     * {@link CodeController#get}
+     * {@link AuthController#get}
      * 
      * @throws Exception
      */
@@ -94,7 +94,7 @@ public class CodeControllerTest
     }
 
     /**
-     * {@link CodeController#query}
+     * {@link AuthController#query}
      * 
      * @throws Exception
      */
@@ -128,7 +128,7 @@ public class CodeControllerTest
     }
 
     /**
-     * {@link CodeController#modify}
+     * {@link AuthController#modify}
      * 
      * @throws Exception
      */
@@ -153,7 +153,7 @@ public class CodeControllerTest
 
 
     /**
-     * {@link CodeController#enable}
+     * {@link AuthController#enable}
      * 
      * @throws Exception
      */
@@ -169,7 +169,7 @@ public class CodeControllerTest
     }
 
     /**
-     * {@link CodeController#enable}
+     * {@link AuthController#enable}
      * 
      * @throws Exception
      */
@@ -185,7 +185,7 @@ public class CodeControllerTest
     }
     
     /**
-     * {@link CodeController#remove}
+     * {@link AuthController#remove}
      * 
      * @throws Exception
      */

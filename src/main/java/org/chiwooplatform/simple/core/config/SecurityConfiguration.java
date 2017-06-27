@@ -1,6 +1,7 @@
 package org.chiwooplatform.simple.core.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -8,11 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
 
-import org.chiwooplatform.security.SecurityUserManagerService;
+import org.chiwooplatform.security.core.UserPrincipalResolver;
 import org.chiwooplatform.security.supports.AnonymousSessionlessAuthenticationFilter;
 import org.chiwooplatform.security.supports.RestAuthenticationFailureHandler;
 import org.chiwooplatform.security.supports.RestAuthenticationFilter;
@@ -57,13 +59,12 @@ public class SecurityConfiguration
         http.cors().configurationSource( cors );
         // http.addFilter( new WebAsyncManagerIntegrationFilter() ).exceptionHandling();
         http.headers();
-        // .sessionManagement().and()
-        // .securityContext().and()
+        http.sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ); // THIS IS FOR RESTFUL TOKEN
         // http.requestCache().and().anonymous();
-        // .servletApi().and()
         // .apply(new DefaultLoginPageConfigurer<HttpSecurity>()).and()
         // .logout();
-        http.authorizeRequests().antMatchers( EXCLUDED_URI_PATTERNS ).permitAll().and();
+        http.authorizeRequests().antMatchers( HttpMethod.OPTIONS, "/**" ).permitAll()
+            .antMatchers( EXCLUDED_URI_PATTERNS ).permitAll().and();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore( new AnonymousSessionlessAuthenticationFilter(), SessionManagementFilter.class );
         http.addFilterBefore( restFilter(), UsernamePasswordAuthenticationFilter.class );
@@ -71,17 +72,17 @@ public class SecurityConfiguration
 
     protected void configure( AuthenticationManagerBuilder auth )
         throws Exception {
-        auth.authenticationProvider( restAuthenticationProvider() );
+        auth.authenticationProvider( authenticationProvider() );
     }
 
     @Bean
-    public SecurityUserManagerService securityUserManagerService() {
-        final MockSecurityUserManagerService securityUserManagerService = new MockSecurityUserManagerService();
-        return securityUserManagerService;
+    public UserPrincipalResolver principalResolver() {
+        final MockSecurityUserManagerService principalResolver = new MockSecurityUserManagerService();
+        return principalResolver;
     }
 
     @Bean
-    public AuthenticationProvider restAuthenticationProvider() {
+    public AuthenticationProvider authenticationProvider() {
         final RestAuthenticationProvider restAuthenticationProvider = new RestAuthenticationProvider();
         return restAuthenticationProvider;
     }
